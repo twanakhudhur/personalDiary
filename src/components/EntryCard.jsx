@@ -1,6 +1,6 @@
 function EntryCard() {
   return (
-    <div className="card card-compact bg-base-100 w-full shadow-xl">
+    <div className="flex flex-row card card-compact bg-base-100 w-full shadow-xl p-2">
       <figure>
         <img
           src="https://placehold.co/200x150"
