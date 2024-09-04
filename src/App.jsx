@@ -14,13 +14,13 @@ function App() {
     date: "2024-09-02",
     title: "First Entry",
     content: "This is my first daily diary entry.",
-    url: "https://cataas.com/cat/orange",
+    url: "https://theoldreader.com/kittens/600/400/",
   };
   const testEntryTwo = {
     date: "2024-09-01",
     title: "Second Entry",
     content: "This is the second entry.",
-    url: "https://cataas.com/cat/black",
+    url: "https://theoldreader.com/kittens/400/400/",
   };
 
   const testEntries = [testEntryOne, testEntryTwo];

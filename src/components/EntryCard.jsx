@@ -1,15 +1,11 @@
-import { createPortal } from "react-dom";
-import { useState } from "react";
 import EntryDetails from "../pages/EntryDetails";
 
 function EntryCard({ entry }) {
   const { date, title, url } = entry;
 
-  const [showModal, setShowModal] = useState(false);
-
   const openModal = () => {
-    console.log("clicked");
-    setShowModal(true);
+    const modalDetails = document.getElementById(date);
+    modalDetails.showModal();
   };
 
   return (
@@ -21,18 +17,14 @@ function EntryCard({ entry }) {
         <img
           src={url}
           alt={`entry image for ${date}`}
-          className="object-scale-down"
+          className="object-scale-down overflow-hidden rounded-lg"
         />
       </figure>
       <div className="card-body items-center text-center">
         <h2 className="card-title">{date}</h2>
         <p>{title}</p>
       </div>
-      {showModal &&
-        createPortal(
-          <EntryDetails onClose={() => setShowModal(false)} entry={entry} />,
-          document.getElementById("modal-root")
-        )}
+      <EntryDetails entry={entry} />
     </div>
   );
 }
