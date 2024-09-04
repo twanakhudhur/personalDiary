@@ -1,13 +1,14 @@
 import EntryCard from "../components/EntryCard";
 
-function Home() {
+function Home({ entries }) {
+  console.log(entries);
+  
   return (
-  <div className="container grid grid-cols-1 gap-3 p-2">
-    {/* Get entries from local storage */}
-    <EntryCard />
-    <EntryCard />
-    <EntryCard />
-  </div>
+    <div className="container grid grid-cols-1 gap-3 p-2">
+      {entries.map((entry, index) => (       
+        <EntryCard key={index} entry={entry} />
+      ))}
+    </div>
   );
 }
 
