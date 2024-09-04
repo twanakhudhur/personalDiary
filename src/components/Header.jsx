@@ -5,7 +5,7 @@ function Header() {
         <a className="btn btn-ghost text-xl">Daily Diary</a>
       </div>
       <div className="flex-none">
-        <button className="btn btn-primary">New Entry</button>
+        <button className="btn btn-primary hover:bg-accent" >New Entry</button>
       </div>
     </div>
   );

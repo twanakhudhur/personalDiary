@@ -1,7 +1,7 @@
 import EntryCard from "../components/EntryCard";
 
 function Home({ entries }) {
-  console.log(entries);
+  // console.log(entries);
   
   return (
     <div className="container grid grid-cols-1 gap-3 p-2">
