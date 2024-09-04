@@ -2,7 +2,7 @@ function EntryDetails({ closeModal, entry }) {
   const { date, title, content, url } = entry;
 
   return (
-    <div onClick={() => closeModal()} id={date} className="modal">
+    <div id={date} className="modal">
       <div className="modal-box bg-base-200">
         <h2 className="font-bold text-lg">{date}</h2>
         <h3 className="text-lg py-4">{title}</h3>
@@ -19,7 +19,6 @@ function EntryDetails({ closeModal, entry }) {
         <div className="modal-action">
           <button
             onClick={() => closeModal()}
-                      
             className="btn btn-primary hover:bg-accent"
           >
             Close
