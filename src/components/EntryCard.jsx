@@ -1,16 +1,26 @@
 import EntryDetails from "../pages/EntryDetails";
+import { useState } from "react";
+import { createPortal } from "react-dom";
 
 function EntryCard({ entry }) {
   const { date, title, url } = entry;
+  const [open, setOpen] = useState(false);
 
-  const openModal = () => {
-    const modalDetails = document.getElementById(date);
-    modalDetails.showModal();
+
+  const closeModal = () => {
+    setOpen(false);
+    console.log("close modal clicked");
+    console.log(open);
   };
+
+  // const openModal = () => {
+  //   const modalDetails = document.getElementById(date);
+  //   modalDetails.showModal();
+  // };
 
   return (
     <div
-      onClick={openModal}
+      onClick={() => setOpen(!open)}
       className="flex flex-row card card-compact bg-primary w-full shadow-xl p-2 hover:bg-accent cursor-pointer"
     >
       <figure className="w-36 h-28 rounded-lg">
@@ -24,7 +34,12 @@ function EntryCard({ entry }) {
         <h2 className="card-title">{date}</h2>
         <p>{title}</p>
       </div>
-      <EntryDetails entry={entry} />
+      {open &&
+        createPortal(
+          <EntryDetails closeModal={closeModal} entry={entry} />,
+          document.body
+        )}
+
     </div>
   );
 }
