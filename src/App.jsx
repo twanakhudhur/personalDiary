@@ -24,18 +24,19 @@ function App() {
   };
 
   const testEntries = [testEntryOne, testEntryTwo];
-  
+
   // For testing purposes, setting of test entries at the start
   useEffect(() => {
     setEntries(...entries, testEntries);
   }, []);
   // console.log(entries);
-  
 
   return (
     <>
-      <Header setEntries={setEntries} />
-      <Home entries={entries} />
+      <div id="modal-root">
+        <Header setEntries={setEntries} />
+        <Home entries={entries} />
+      </div>
     </>
   );
 }
