@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry }) {
   const initialFormState = {
@@ -9,7 +9,6 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry }) {
   };
 
   const [formData, setFormData] = useState(initialFormState);
-
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -60,15 +59,13 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry }) {
       setErrors({});
     }
   }, [isNewEntryDialogOpen]);
+
   return (
-    <dialog
-      id="newEntryDialog"
-      className={`modal ${isNewEntryDialogOpen ? "modal-open" : ""}`}
-    >
-      <div className="modal-box">
-        <h3 className="font-bold text-lg">Add New Diary</h3>
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+      <div className="modal-box bg-white p-6 rounded-lg shadow-lg">
+        <h3 className="font-bold text-lg">Add New Diary Entry</h3>
         <form onSubmit={handleSubmit}>
-          <div className="form-control">
+          <div className="form-control mb-4">
             <label className="label">
               <span className="label-text">Title</span>
             </label>
@@ -77,12 +74,12 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry }) {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="input input-bordered"
+              className="input input-bordered w-full"
             />
             {errors.title && <p className="text-red-500">{errors.title}</p>}
           </div>
 
-          <div className="form-control">
+          <div className="form-control mb-4">
             <label className="label">
               <span className="label-text">Content</span>
             </label>
@@ -90,12 +87,12 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry }) {
               name="content"
               value={formData.content}
               onChange={handleChange}
-              className="textarea textarea-bordered"
+              className="textarea textarea-bordered w-full"
             />
             {errors.content && <p className="text-red-500">{errors.content}</p>}
           </div>
 
-          <div className="form-control">
+          <div className="form-control mb-4">
             <label className="label">
               <span className="label-text">Image</span>
             </label>
@@ -116,14 +113,14 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry }) {
             <button
               type="button"
               className="btn"
-              onClick={toggleNewEntryDialog}
+              onClick={() => toggleNewEntryDialog()}
             >
               Close
             </button>
           </div>
         </form>
       </div>
-    </dialog>
+    </div>
   );
 }
 

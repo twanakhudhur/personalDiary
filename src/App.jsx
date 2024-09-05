@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 import NewEntry from "./pages/NewEntry";
@@ -7,14 +7,10 @@ function App() {
   const [entries, setEntries] = useState(
     JSON.parse(localStorage.getItem("diaryEntries")) || []
   );
-
-  
-
   const [isNewEntryDialogOpen, setNewEntryDialogOpen] = useState(false);
   const toggleNewEntryDialog = () => {
     setNewEntryDialogOpen((prev) => !prev);
   };
-
 
   const addEntry = (newEntry) => {
     const updatedEntries = [...entries, newEntry];
@@ -24,11 +20,17 @@ function App() {
 
   return (
     <>
-      <div id="modal-root" className="px-[5%]">
+      <div id="modal-root">
         <Header toggleNewEntryDialog={toggleNewEntryDialog} />
-        <Home entries={entries}/>
-        <NewEntry isNewEntryDialogOpen={isNewEntryDialogOpen} toggleNewEntryDialog={toggleNewEntryDialog} addEntry={addEntry}/>
+        <Home entries={entries} />
       </div>
+      {isNewEntryDialogOpen && (
+        <NewEntry
+          isNewEntryDialogOpen={isNewEntryDialogOpen}
+          toggleNewEntryDialog={toggleNewEntryDialog}
+          addEntry={addEntry}
+        />
+      )}
     </>
   );
 }
