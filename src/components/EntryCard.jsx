@@ -7,10 +7,17 @@ function EntryCard({ entry }) {
   const [open, setOpen] = useState(false);
   const entryDate = new Date(date);
 
+  const dateFormatOptionStandard = { year: "numeric", month: "long", day: "numeric" };
+  const dateFormatOptionWeekday = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+
+
   const getDateLabel = (date) => {
-    if (isToday(date)) return `Today ${format(date, "MM-dd-yyyy")}`;
-    if (isYesterday(date)) return `Yesterday ${format(date, "MM-dd-yyyy")}`;
-    return format(date, "MM-dd-yyyy");
+    const dateFormattedStandard = new Intl.DateTimeFormat("en-US", dateFormatOptionStandard).format(date);
+    const dateFormattedWeekday = new Intl.DateTimeFormat("en-US", dateFormatOptionWeekday).format(date);
+
+    if (isToday(date)) return `Today, ${dateFormattedStandard}`;
+    if (isYesterday(date)) return `Yesterday, ${dateFormattedStandard}`;
+    return dateFormattedWeekday;
   };
   const dateLabel = getDateLabel(entryDate);
 

@@ -14,8 +14,11 @@ function App() {
 
   const addEntry = (newEntry) => {
     const updatedEntries = [...entries, newEntry];
-    setEntries(updatedEntries);
-    localStorage.setItem("diaryEntries", JSON.stringify(updatedEntries));
+    const sortedEntries = updatedEntries.sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    );
+    setEntries(sortedEntries);
+    localStorage.setItem("diaryEntries", JSON.stringify(sortedEntries));
   };
 
   return (
