@@ -1,6 +1,5 @@
 import EntryDetails from "../pages/EntryDetails";
 import { useState } from "react";
-import { createPortal } from "react-dom";
 import { format, isToday, isYesterday } from "date-fns";
 
 function EntryCard({ entry }) {
@@ -49,11 +48,7 @@ function EntryCard({ entry }) {
           <p>{title}</p>
         </div>
       </div>
-      {open &&
-        createPortal(
-          <EntryDetails closeModal={closeModal} entry={entry} />,
-          document.body
-        )}
+      {open && <EntryDetails closeModal={closeModal} entry={entry} />}
     </div>
   );
 }
