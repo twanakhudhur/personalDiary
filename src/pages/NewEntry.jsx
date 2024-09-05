@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function NewEntry({
   isNewEntryDialogOpen,
@@ -19,6 +19,8 @@ function NewEntry({
   const [errors, setErrors] = useState({});
   const [fileUploaded, setFileUploaded] = useState(false);
 
+  const imageInputRef = useRef(null);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -38,8 +40,7 @@ function NewEntry({
         });
       };
       reader.readAsDataURL(file);
-    }
-    else {
+    } else {
       setFileUploaded(false);
       setFormData({
         ...formData,
@@ -55,7 +56,7 @@ function NewEntry({
     if (!formData.date) newErrors.date = "Date is required.";
     if (!formData.title.trim()) newErrors.title = "Title is required.";
     if (!formData.content.trim()) newErrors.content = "Content is required.";
-    if (!formData.img_url.trim()) newErrors.img_url = "Image URL is required.";
+    if (!formData.img_url.trim()) newErrors.img_url = "Image URL or selecting a file is required.";
     return newErrors;
   };
 
@@ -70,6 +71,15 @@ function NewEntry({
       setFormData(initialFormState);
       setErrors({});
     }
+  };
+
+  const resetImageInput = () => {
+    imageInputRef.current.value = "";
+    setFileUploaded(false);
+    setFormData({
+      ...formData,
+      img_url: "",
+    });
   };
 
   useEffect(() => {
@@ -129,33 +139,57 @@ function NewEntry({
             <label className="label">
               <span className="label-text">Upload Image:</span>
             </label>
-            <input
-              type="file"
-              name="img_url"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="file-input file-input-bordered w-full max-w-xs"
-            />
+            <div>
+              <input
+                type="file"
+                name="img_url"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="file-input file-input-bordered w-full max-w-xs"
+                ref={imageInputRef}
+              />
+              {fileUploaded && (
+                <button
+                  className="btn btn-secondary btn-circle btn-outline ml-4"
+                  onClick={() => resetImageInput()}
+                    >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-3 w-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="4"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
             {errors.img_url && <p className="text-red-500">{errors.img_url}</p>}
           </div>
 
-          {!fileUploaded && (
-            <div className="form-control mb-4">
-              <label className="label">
-                <span className="label-text">Or specify an Image URL:</span>
-              </label>
-              <input
-                type="text"
-                name="img_url"
-                value={formData.img_url}
-                onChange={handleChange}
-                className="input input-bordered w-full"
-              />
-              {errors.img_url && (
-                <p className="text-red-500">{errors.img_url}</p>
-              )}
-            </div>
-          )}
+          <div className="form-control mb-4">
+            <label className="label">
+              <span className="label-text">Or specify an Image URL:</span>
+            </label>
+            <input
+              type="text"
+              name="img_url"
+              value={formData.img_url}
+              onChange={handleChange}
+              className="input input-bordered w-full"
+              // Disable the input field if a file is uploaded
+              disabled={fileUploaded}
+            />
+
+            {errors.img_url && <p className="text-red-500">{errors.img_url}</p>}
+          </div>
+
           <div className="modal-action">
             <button type="submit" className="btn btn-primary hover:bg-accent">
               Submit
