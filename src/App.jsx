@@ -1,41 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import Header from "./components/Header";
-import { useEffect } from "react";
+import NewEntry from "./pages/NewEntry";
 
 function App() {
-  // empty array OR get from local storage
-  // somewhere needs to be a sorting mechanism (before saving or when loading)
   const [entries, setEntries] = useState(
     JSON.parse(localStorage.getItem("diaryEntries")) || []
   );
 
-  const testEntryOne = {
-    date: "2024-09-02",
-    title: "First Entry",
-    content: "This is my first daily diary entry.",
-    url: "https://theoldreader.com/kittens/600/400/",
-  };
-  const testEntryTwo = {
-    date: "2024-09-01",
-    title: "Second Entry",
-    content: "This is the second entry.",
-    url: "https://theoldreader.com/kittens/400/400/",
+  
+
+  const [isNewEntryDialogOpen, setNewEntryDialogOpen] = useState(false);
+  const toggleNewEntryDialog = () => {
+    setNewEntryDialogOpen((prev) => !prev);
   };
 
-  const testEntries = [testEntryOne, testEntryTwo];
 
-  // For testing purposes, setting of test entries at the start
-  useEffect(() => {
-    setEntries(...entries, testEntries);
-  }, []);
-  // console.log(entries);
+  const addEntry = (newEntry) => {
+    const updatedEntries = [...entries, newEntry];
+    setEntries(updatedEntries);
+    localStorage.setItem("diaryEntries", JSON.stringify(updatedEntries));
+  };
 
   return (
     <>
-      <div id="modal-root">
-        <Header setEntries={setEntries} />
-        <Home entries={entries} />
+      <div id="modal-root" className="px-[5%]">
+        <Header toggleNewEntryDialog={toggleNewEntryDialog} />
+        <Home entries={entries}/>
+        <NewEntry isNewEntryDialogOpen={isNewEntryDialogOpen} toggleNewEntryDialog={toggleNewEntryDialog} addEntry={addEntry}/>
       </div>
     </>
   );
