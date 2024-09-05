@@ -1,11 +1,11 @@
-function EntryDetails({ closeModal, entry }) {
+function EntryDetails({ closeModal, entry, dateLabel }) {
   const { date, title, content, img_url } = entry;
 
   return (
     <div id={date} className="modal">
       <div className="modal-box bg-base-200">
         <h3 className="text-lg font-bold capitalize">{title}</h3>
-        <h2 className="text-gray-700 font-semibold text-sm">{date}</h2>
+        <h2 className="text-gray-700 font-semibold text-sm">{dateLabel}</h2>
         <p className="py-4 italic dateLabel font-semibold">{content}</p>
 
         <figure className="rounded-lg">

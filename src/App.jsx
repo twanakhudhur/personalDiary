@@ -20,7 +20,7 @@ function App() {
 
   return (
     <>
-      <div id="modal-root">
+      <div className="px-[5%]">
         <Header toggleNewEntryDialog={toggleNewEntryDialog} />
         <Home entries={entries} />
       </div>

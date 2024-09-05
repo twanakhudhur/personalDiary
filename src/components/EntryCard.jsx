@@ -48,7 +48,7 @@ function EntryCard({ entry }) {
           <p>{title}</p>
         </div>
       </div>
-      {open && <EntryDetails closeModal={closeModal} entry={entry} />}
+      {open && <EntryDetails closeModal={closeModal} entry={entry} dateLabel={dateLabel}/>}
     </div>
   );
 }
