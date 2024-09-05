@@ -1,6 +1,6 @@
 import EntryCard from "../components/EntryCard";
 
-function Home({ entries }) {
+function Home({ entries, deleteEntry }) {
   return (
     <div id="card-container" className="container grid grid-cols-1 gap-3 p-2">
       {entries.length === 0 ? (
@@ -8,7 +8,7 @@ function Home({ entries }) {
       ) : (
         <div className="grid gap-4">
           {entries.map((entry, index) => (
-            <EntryCard key={index} entry={entry} />
+            <EntryCard key={index} entry={entry} deleteEntry={deleteEntry}/>
           ))}
         </div>
       )}

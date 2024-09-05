@@ -1,36 +1,50 @@
 import EntryDetails from "../pages/EntryDetails";
 import { useState } from "react";
-import { format, isToday, isYesterday } from "date-fns";
+import { isToday, isYesterday } from "date-fns";
 
-function EntryCard({ entry }) {
+function EntryCard({ entry, deleteEntry }) {
   const { date, title, img_url } = entry;
   const [open, setOpen] = useState(false);
   const entryDate = new Date(date);
 
-  const dateFormatOptionStandard = { year: "numeric", month: "long", day: "numeric" };
-  const dateFormatOptionWeekday = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
-
+  const dateFormatOptionStandard = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const dateFormatOptionWeekday = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
   const getDateLabel = (date) => {
-    const dateFormattedStandard = new Intl.DateTimeFormat("en-US", dateFormatOptionStandard).format(date);
-    const dateFormattedWeekday = new Intl.DateTimeFormat("en-US", dateFormatOptionWeekday).format(date);
+    if (isToday(date))
+      return `Today, ${new Intl.DateTimeFormat(
+        "en-US",
+        dateFormatOptionStandard
+      ).format(date)}`;
+    if (isYesterday(date))
+      return `Yesterday, ${new Intl.DateTimeFormat(
+        "en-US",
+        dateFormatOptionStandard
+      ).format(date)}`;
 
-    if (isToday(date)) return `Today, ${dateFormattedStandard}`;
-    if (isYesterday(date)) return `Yesterday, ${dateFormattedStandard}`;
+    const dateFormattedWeekday = new Intl.DateTimeFormat(
+      "en-US",
+      dateFormatOptionWeekday
+    ).format(date);
     return dateFormattedWeekday;
   };
   const dateLabel = getDateLabel(entryDate);
 
   const closeModal = () => {
     setOpen(false);
-    console.log("close modal clicked");
-    console.log(open);
   };
 
   const openModal = () => {
     setOpen(true);
-    console.log("open modal clicked");
-    console.log(open);
   };
 
   return (
@@ -55,7 +69,15 @@ function EntryCard({ entry }) {
           <p>{title}</p>
         </div>
       </div>
-      {open && <EntryDetails closeModal={closeModal} entry={entry} dateLabel={dateLabel}/>}
+
+      {open && (
+        <EntryDetails
+          closeModal={closeModal}
+          entry={entry}
+          dateLabel={dateLabel}
+          deleteEntry={deleteEntry}
+        />
+      )}
     </div>
   );
 }
