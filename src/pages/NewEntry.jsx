@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry }) {
+function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry, checkDuplicateDate }) {
   const initialFormState = {
     date: new Date().toISOString().split('T')[0],
     title: "",
@@ -36,6 +36,7 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry }) {
 
   const validateForm = () => {
     const newErrors = {};
+    if(checkDuplicateDate(formData.date)) newErrors.date = "An entry for this date already exists."; 
     if (!formData.date) newErrors.date = "Date is required.";
     if (!formData.title.trim()) newErrors.title = "Title is required.";
     if (!formData.content.trim()) newErrors.content = "Content is required.";
@@ -82,7 +83,6 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry }) {
             />
             {errors.date && <p className="text-red-500">{errors.date}</p>}
           </div>
-
 
           <div className="form-control mb-4">
             <label className="label">

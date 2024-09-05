@@ -12,6 +12,10 @@ function App() {
     setNewEntryDialogOpen((prev) => !prev);
   };
 
+  const checkDuplicateDate = (date) => {
+    return entries.some((entry) => entry.date === date);
+  };
+
   const addEntry = (newEntry) => {
     const updatedEntries = [...entries, newEntry];
     const sortedEntries = updatedEntries.sort(
@@ -32,6 +36,7 @@ function App() {
           isNewEntryDialogOpen={isNewEntryDialogOpen}
           toggleNewEntryDialog={toggleNewEntryDialog}
           addEntry={addEntry}
+          checkDuplicateDate={checkDuplicateDate}
         />
       )}
     </>
