@@ -25,11 +25,17 @@ function App() {
     localStorage.setItem("diaryEntries", JSON.stringify(sortedEntries));
   };
 
+  const deleteEntry = (date) => {
+    const updatedEntries = entries.filter((entry) => entry.date !== date);
+    setEntries(updatedEntries);
+    localStorage.setItem("diaryEntries", JSON.stringify(updatedEntries));
+  };
+
   return (
     <>
       <div className="px-[5%]">
         <Header toggleNewEntryDialog={toggleNewEntryDialog} />
-        <Home entries={entries} />
+        <Home entries={entries} deleteEntry={deleteEntry} />
       </div>
       {isNewEntryDialogOpen && (
         <NewEntry
