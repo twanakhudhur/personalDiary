@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
 
-function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry, checkDuplicateDate }) {
+function NewEntry({
+  isNewEntryDialogOpen,
+  toggleNewEntryDialog,
+  addEntry,
+  checkDuplicateDate,
+}) {
   const initialFormState = {
-    date: new Date().toISOString().split('T')[0],
+    date: new Date().toISOString().split("T")[0],
     title: "",
     content: "",
     img_url: "",
@@ -12,6 +17,7 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry, checkD
 
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
+  const [fileUploaded, setFileUploaded] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -23,6 +29,7 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry, checkD
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setFileUploaded(true);
       const reader = new FileReader();
       reader.onloadend = () => {
         setFormData({
@@ -32,11 +39,19 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry, checkD
       };
       reader.readAsDataURL(file);
     }
+    else {
+      setFileUploaded(false);
+      setFormData({
+        ...formData,
+        img_url: "",
+      });
+    }
   };
 
   const validateForm = () => {
     const newErrors = {};
-    if(checkDuplicateDate(formData.date)) newErrors.date = "An entry for this date already exists."; 
+    if (checkDuplicateDate(formData.date))
+      newErrors.date = "An entry for this date already exists.";
     if (!formData.date) newErrors.date = "Date is required.";
     if (!formData.title.trim()) newErrors.title = "Title is required.";
     if (!formData.content.trim()) newErrors.content = "Content is required.";
@@ -69,12 +84,11 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry, checkD
       <div className="modal-box bg-white p-6 rounded-lg shadow-lg">
         <h3 className="font-bold text-lg mb-3">Add New Diary Entry</h3>
         <form onSubmit={handleSubmit}>
-    
           <div className="form-control mb-4">
             <label className="label">
               <span className="label-text">Date:</span>
             </label>
-            <input 
+            <input
               type="date"
               name="date"
               value={formData.date}
@@ -113,7 +127,7 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry, checkD
 
           <div className="form-control mb-4">
             <label className="label">
-              <span className="label-text">Image:</span>
+              <span className="label-text">Upload Image:</span>
             </label>
             <input
               type="file"
@@ -125,6 +139,23 @@ function NewEntry({ isNewEntryDialogOpen, toggleNewEntryDialog, addEntry, checkD
             {errors.img_url && <p className="text-red-500">{errors.img_url}</p>}
           </div>
 
+          {!fileUploaded && (
+            <div className="form-control mb-4">
+              <label className="label">
+                <span className="label-text">Or specify an Image URL:</span>
+              </label>
+              <input
+                type="text"
+                name="img_url"
+                value={formData.img_url}
+                onChange={handleChange}
+                className="input input-bordered w-full"
+              />
+              {errors.img_url && (
+                <p className="text-red-500">{errors.img_url}</p>
+              )}
+            </div>
+          )}
           <div className="modal-action">
             <button type="submit" className="btn btn-primary hover:bg-accent">
               Submit
