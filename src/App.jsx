@@ -12,10 +12,17 @@ function App() {
     setNewEntryDialogOpen((prev) => !prev);
   };
 
+  const checkDuplicateDate = (date) => {
+    return entries.some((entry) => entry.date === date);
+  };
+
   const addEntry = (newEntry) => {
     const updatedEntries = [...entries, newEntry];
-    setEntries(updatedEntries);
-    localStorage.setItem("diaryEntries", JSON.stringify(updatedEntries));
+    const sortedEntries = updatedEntries.sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    );
+    setEntries(sortedEntries);
+    localStorage.setItem("diaryEntries", JSON.stringify(sortedEntries));
   };
 
   return (
@@ -29,6 +36,7 @@ function App() {
           isNewEntryDialogOpen={isNewEntryDialogOpen}
           toggleNewEntryDialog={toggleNewEntryDialog}
           addEntry={addEntry}
+          checkDuplicateDate={checkDuplicateDate}
         />
       )}
     </>
